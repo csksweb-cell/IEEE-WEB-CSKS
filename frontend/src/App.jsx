@@ -13,13 +13,21 @@ import Events from './components/Events'
 import Team from './components/Team'
 import CommunityCta from './components/CommunityCta'
 import Footer from './components/Footer'
-import SanityModal from './components/SanityModal'
 
 export default function App() {
   const { theme, toggleTheme } = useTheme()
-  const { data, loading, isLive, projectId, dataset, message, updateConfig } = useSanityData()
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const { data } = useSanityData()
   const [preloaderDone, setPreloaderDone] = useState(false)
+
+  // data is null until Sanity responds — all props use optional chaining
+  const settings      = data?.settings      ?? null
+  const hero          = data?.hero          ?? null
+  const storyChapters = data?.storyChapters ?? null
+  const galleryItems  = data?.galleryItems  ?? null
+  const pillars       = data?.pillars       ?? null
+  const stats         = data?.stats         ?? null
+  const events        = data?.events        ?? null
+  const teamMembers   = data?.teamMembers   ?? null
 
   return (
     <>
@@ -29,34 +37,24 @@ export default function App() {
       {/* Main Website Content */}
       <div className="site-wrapper">
         <Navbar
-          settings={data.settings}
+          settings={settings}
           theme={theme}
           toggleTheme={toggleTheme}
-          onOpenSanityModal={() => setIsModalOpen(true)}
-          isLive={isLive}
         />
 
         <main>
-          <Hero hero={data.hero} galleryItems={data.galleryItems} />
-          <MarqueeStrip keywords={data.hero?.marqueeKeywords} />
-          <StoryLegacy chapters={data.storyChapters} />
-          <GallerySection items={data.galleryItems} />
-          <Pillars pillars={data.pillars} />
-          <Stats stats={data.stats} />
-          <Events events={data.events} />
-          <Team members={data.teamMembers} />
-          <CommunityCta settings={data.settings} />
+          <Hero hero={hero} galleryItems={galleryItems} />
+          <MarqueeStrip keywords={hero?.marqueeKeywords} />
+          <StoryLegacy chapters={storyChapters} />
+          <GallerySection items={galleryItems} />
+          <Pillars pillars={pillars} />
+          <Stats stats={stats} />
+          <Events events={events} />
+          <Team members={teamMembers} />
+          <CommunityCta settings={settings} />
         </main>
 
-        <Footer settings={data.settings} />
-
-        {/* Sanity Content Lake Connection Modal */}
-        <SanityModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          sanityMeta={{ isLive, projectId, dataset, message }}
-          onUpdateConfig={updateConfig}
-        />
+        <Footer settings={settings} />
       </div>
     </>
   )

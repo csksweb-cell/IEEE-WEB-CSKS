@@ -7,7 +7,7 @@ export default function StoryLegacy({ chapters }) {
   const [activeIndex, setActiveIndex] = useState(0)
 
   const items = chapters?.length ? chapters : []
-  const activeChapter = items[activeIndex] || items[0]
+  const activeChapter = items[activeIndex] ?? items[0]
 
   const nextChapter = () => {
     setActiveIndex((prev) => (prev + 1) % items.length)
@@ -35,13 +35,13 @@ export default function StoryLegacy({ chapters }) {
           {/* Visual Frame */}
           <div className="story-visual">
             <span className="story-badge-step">
-              0{activeChapter.step || activeIndex + 1} / 0{items.length}
+              0{activeChapter.step ?? activeIndex + 1} / 0{items.length}
             </span>
             <AnimatePresence mode="wait">
               <motion.img
                 key={activeIndex}
                 src={imageSrc}
-                alt={activeChapter.imageAlt || activeChapter.titlePrefix || 'Story milestone'}
+                alt={activeChapter.imageAlt ?? activeChapter.titlePrefix ?? 'Story milestone'}
                 initial={{ opacity: 0, scale: 1.05 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0 }}

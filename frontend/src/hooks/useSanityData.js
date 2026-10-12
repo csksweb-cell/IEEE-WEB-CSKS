@@ -1,21 +1,15 @@
 import { useState, useEffect, useCallback } from 'react'
 import { fetchSanityContent } from '../sanity/client'
 
-const initialData = {
-  settings: {},
-  hero: {},
-  storyChapters: [],
-  pillars: [],
-  stats: [],
-  events: [],
-  teamMembers: [],
-  galleryItems: [],
-}
-
+/**
+ * Strict Sanity-only data hook.
+ * Initial state is null for every field — components must handle null explicitly.
+ * No fallback objects or arrays are injected at any point.
+ */
 export function useSanityData() {
-  const [data, setData] = useState(initialData)
+  const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [isLive, setIsLive] = useState(true)
+  const [isLive, setIsLive] = useState(false)
   const [projectId, setProjectId] = useState('kvtr8mms')
   const [dataset, setDataset] = useState('production')
   const [message, setMessage] = useState('')
@@ -25,15 +19,15 @@ export function useSanityData() {
     setLoading(true)
     try {
       const res = await fetchSanityContent()
-      setData(res.data)
+      setData(res.data)        // null on error, object with nulls on empty Sanity
       setIsLive(res.isLive)
       setProjectId(res.projectId)
       setDataset(res.dataset)
       setMessage(res.message)
-      setError(res.error || null)
+      setError(res.error ?? null)
     } catch (err) {
       setError(err.message)
-      setData(initialData)
+      setData(null)
     } finally {
       setLoading(false)
     }

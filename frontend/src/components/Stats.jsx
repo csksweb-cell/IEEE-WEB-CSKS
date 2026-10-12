@@ -11,7 +11,7 @@ function CounterItem({ value, suffix, label }) {
         if (entries[0].isIntersecting && !hasAnimated.current) {
           hasAnimated.current = true
           let start = 0
-          const end = parseInt(value, 10) || 0
+          const end = parseInt(value, 10)
           const duration = 1500
           const stepTime = 30
           const totalSteps = duration / stepTime
@@ -39,7 +39,7 @@ function CounterItem({ value, suffix, label }) {
     <div ref={itemRef} className="stat-item">
       <div className="stat-num">
         {displayValue}
-        <span style={{ fontSize: '0.7em', marginLeft: '2px' }}>{suffix || '+'}</span>
+        {suffix && <span style={{ fontSize: '0.7em', marginLeft: '2px' }}>{suffix}</span>}
       </div>
       <div className="stat-lbl">{label}</div>
     </div>
@@ -55,7 +55,7 @@ export default function Stats({ stats }) {
         <div className="stats-strip">
           {stats.map((stat) => (
             <CounterItem
-              key={stat._id || stat.label}
+              key={stat._id}
               value={stat.value}
               suffix={stat.suffix}
               label={stat.label}

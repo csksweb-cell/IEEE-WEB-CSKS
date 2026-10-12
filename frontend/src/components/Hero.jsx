@@ -3,7 +3,10 @@ import { motion } from 'framer-motion'
 import { urlFor } from '../sanity/client'
 
 export default function Hero({ hero, galleryItems }) {
-  const slides = (galleryItems && galleryItems.length > 0)
+  // Both hero text and gallery images must come from Sanity
+  if (!hero && (!galleryItems || galleryItems.length === 0)) return null
+
+  const slides = galleryItems && galleryItems.length > 0
     ? [...galleryItems, ...galleryItems]
     : []
 
@@ -18,7 +21,7 @@ export default function Hero({ hero, galleryItems }) {
               if (!imgSrc) return null
               return (
                 <div key={i} className="hero-slide">
-                  <img src={imgSrc} alt={slide.title || ''} loading="eager" />
+                  <img src={imgSrc} alt={slide.title ?? ''} loading="eager" />
                   {slide.category && <span className="slide-tag">{slide.category}</span>}
                 </div>
               )
@@ -44,26 +47,30 @@ export default function Hero({ hero, galleryItems }) {
             </div>
           )}
 
-          <h1>
-            <span>{hero?.titleLine1 || 'Four'} </span>
-            {hero?.titleAccent && <span className="accent">{hero.titleAccent} </span>}
-            <span>{hero?.titleLine2 || 'of Computing.'}</span>
-          </h1>
+          {(hero?.titleLine1 || hero?.titleAccent || hero?.titleLine2) && (
+            <h1>
+              {hero.titleLine1 && <span>{hero.titleLine1} </span>}
+              {hero.titleAccent && <span className="accent">{hero.titleAccent} </span>}
+              {hero.titleLine2 && <span>{hero.titleLine2}</span>}
+            </h1>
+          )}
 
           {hero?.subtitle && <p className="hero-sub">{hero.subtitle}</p>}
 
-          <div className="hero-actions">
-            {hero?.primaryCtaText && (
-              <a href={hero?.primaryCtaLink || '#story'} className="btn btn-primary">
-                <span className="dot"></span> {hero.primaryCtaText}
-              </a>
-            )}
-            {hero?.secondaryCtaText && (
-              <a href={hero?.secondaryCtaLink || '#events'} className="btn btn-ghost">
-                {hero.secondaryCtaText}
-              </a>
-            )}
-          </div>
+          {(hero?.primaryCtaText || hero?.secondaryCtaText) && (
+            <div className="hero-actions">
+              {hero.primaryCtaText && hero.primaryCtaLink && (
+                <a href={hero.primaryCtaLink} className="btn btn-primary">
+                  <span className="dot"></span> {hero.primaryCtaText}
+                </a>
+              )}
+              {hero.secondaryCtaText && hero.secondaryCtaLink && (
+                <a href={hero.secondaryCtaLink} className="btn btn-ghost">
+                  {hero.secondaryCtaText}
+                </a>
+              )}
+            </div>
+          )}
         </motion.div>
       </div>
     </section>

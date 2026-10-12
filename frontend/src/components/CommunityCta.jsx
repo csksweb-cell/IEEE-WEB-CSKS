@@ -2,6 +2,8 @@ import React from 'react'
 import confetti from 'canvas-confetti'
 
 export default function CommunityCta({ settings }) {
+  if (!settings) return null
+
   const handleConfetti = () => {
     confetti({
       particleCount: 80,
@@ -25,15 +27,17 @@ export default function CommunityCta({ settings }) {
             Students, professionals, tinkerers and veterans — IEEE CSKC is where the state's computing story keeps getting written. Add your chapter.
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a
-              href={settings?.membershipUrl || 'https://cs.ieeekerala.org'}
-              target="_blank"
-              rel="noreferrer"
-              className="btn btn-primary"
-              onClick={handleConfetti}
-            >
-              <span className="dot"></span> Become a member
-            </a>
+            {settings.membershipUrl && (
+              <a
+                href={settings.membershipUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="btn btn-primary"
+                onClick={handleConfetti}
+              >
+                <span className="dot"></span> Become a member
+              </a>
+            )}
             <a href="#events" className="btn btn-ghost">
               Attend an event
             </a>

@@ -101,7 +101,7 @@ export default function SanityModal({ isOpen, onClose, sanityMeta, onUpdateConfi
               style={{ fontSize: '0.85rem', padding: '0.65rem 1.2rem' }}
               onClick={handleReset}
             >
-              Reset to Seed
+              Reset to Default
             </button>
             <button
               type="submit"

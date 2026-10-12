@@ -4,14 +4,15 @@ import { urlFor } from '../sanity/client'
 
 export default function Footer({ settings }) {
   const currentYear = new Date().getFullYear()
-  const logoFull = urlFor(settings?.logo) || '/assets/img/logo-full.png'
+  const logoFull = urlFor(settings?.logo)
+  const social = settings?.socialLinks
 
   return (
     <footer className="footer">
       <div className="wrap">
         <div className="foot-grid">
           <div className="foot-brand">
-            <img src={logoFull} alt="IEEE CS Kerala Chapter" />
+            {logoFull && <img src={logoFull} alt="IEEE CS Kerala Chapter" />}
             <p>
               IEEE Computer Society Kerala Chapter (IEEE CSKC). Four decades of advancing the theory, practice and joy of computing across Kerala. Powered by Sanity Content Lake.
             </p>
@@ -48,40 +49,30 @@ export default function Footer({ settings }) {
             © {currentYear} IEEE Computer Society Kerala Chapter. Redesign concept.
           </span>
 
-          <div className="socials">
-            <a
-              href={settings?.socialLinks?.linkedin || 'https://www.linkedin.com/company/ieeecskerala/'}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="LinkedIn"
-            >
-              <Linkedin size={20} />
-            </a>
-            <a
-              href={settings?.socialLinks?.instagram || 'https://www.instagram.com/ieeecskerala/'}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Instagram"
-            >
-              <Instagram size={20} />
-            </a>
-            <a
-              href={settings?.socialLinks?.x || 'https://x.com/ieeecskerala'}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="X (Twitter)"
-            >
-              <Twitter size={20} />
-            </a>
-            <a
-              href={settings?.socialLinks?.youtube || 'https://www.youtube.com/@ieeecskerala'}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="YouTube"
-            >
-              <Youtube size={20} />
-            </a>
-          </div>
+          {social && (
+            <div className="socials">
+              {social.linkedin && (
+                <a href={social.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
+                  <Linkedin size={20} />
+                </a>
+              )}
+              {social.instagram && (
+                <a href={social.instagram} target="_blank" rel="noreferrer" aria-label="Instagram">
+                  <Instagram size={20} />
+                </a>
+              )}
+              {social.x && (
+                <a href={social.x} target="_blank" rel="noreferrer" aria-label="X (Twitter)">
+                  <Twitter size={20} />
+                </a>
+              )}
+              {social.youtube && (
+                <a href={social.youtube} target="_blank" rel="noreferrer" aria-label="YouTube">
+                  <Youtube size={20} />
+                </a>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </footer>
