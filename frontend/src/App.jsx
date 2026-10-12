@@ -37,7 +37,7 @@ export default function App() {
         />
 
         <main>
-          <Hero hero={data.hero} />
+          <Hero hero={data.hero} galleryItems={data.galleryItems} />
           <MarqueeStrip keywords={data.hero?.marqueeKeywords} />
           <StoryLegacy chapters={data.storyChapters} />
           <GallerySection items={data.galleryItems} />

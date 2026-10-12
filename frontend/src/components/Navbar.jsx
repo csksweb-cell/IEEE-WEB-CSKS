@@ -1,5 +1,5 @@
 import React from 'react'
-import { Sun, Moon, Database } from 'lucide-react'
+import { Sun, Moon } from 'lucide-react'
 import { urlFor } from '../sanity/client'
 
 export default function Navbar({ settings, theme, toggleTheme, onOpenSanityModal, isLive }) {

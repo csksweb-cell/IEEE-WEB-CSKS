@@ -1,9 +1,8 @@
 import React from 'react'
-import { Calendar, MapPin } from 'lucide-react'
 import { urlFor } from '../sanity/client'
 
 export default function Events({ events }) {
-  const items = events?.length ? events : []
+  if (!events || events.length === 0) return null
 
   return (
     <section className="section" id="events" style={{ paddingTop: 0 }}>
@@ -21,8 +20,8 @@ export default function Events({ events }) {
         </div>
 
         <div className="events-grid">
-          {items.map((event, idx) => {
-            const coverSrc = urlFor(event.coverImage) || `/assets/img/event-0${((idx + 2) % 8) + 1}.jpg`
+          {events.map((event) => {
+            const coverSrc = urlFor(event.coverImage)
 
             return (
               <article key={event._id || event.title} className="event-card">

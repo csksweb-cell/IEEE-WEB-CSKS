@@ -1,12 +1,22 @@
 import { useState, useEffect, useCallback } from 'react'
 import { fetchSanityContent } from '../sanity/client'
-import { fallbackData } from '../sanity/fallbackData'
+
+const initialData = {
+  settings: {},
+  hero: {},
+  storyChapters: [],
+  pillars: [],
+  stats: [],
+  events: [],
+  teamMembers: [],
+  galleryItems: [],
+}
 
 export function useSanityData() {
-  const [data, setData] = useState(fallbackData)
+  const [data, setData] = useState(initialData)
   const [loading, setLoading] = useState(true)
-  const [isLive, setIsLive] = useState(false)
-  const [projectId, setProjectId] = useState('ieeecskc')
+  const [isLive, setIsLive] = useState(true)
+  const [projectId, setProjectId] = useState('kvtr8mms')
   const [dataset, setDataset] = useState('production')
   const [message, setMessage] = useState('')
   const [error, setError] = useState(null)
@@ -23,7 +33,7 @@ export function useSanityData() {
       setError(res.error || null)
     } catch (err) {
       setError(err.message)
-      setData(fallbackData)
+      setData(initialData)
     } finally {
       setLoading(false)
     }

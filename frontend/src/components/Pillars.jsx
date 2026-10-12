@@ -10,7 +10,7 @@ const ICON_MAP = {
 }
 
 export default function Pillars({ pillars }) {
-  const items = pillars?.length ? pillars : []
+  if (!pillars || pillars.length === 0) return null
 
   return (
     <section className="section" id="work">
@@ -26,7 +26,7 @@ export default function Pillars({ pillars }) {
         </div>
 
         <div className="pillars-grid">
-          {items.map((pillar) => {
+          {pillars.map((pillar) => {
             const IconComponent = ICON_MAP[pillar.icon] || Terminal
 
             let cardClass = 'pillar-card glass glass-col'

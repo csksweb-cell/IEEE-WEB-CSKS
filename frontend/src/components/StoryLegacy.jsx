@@ -19,7 +19,7 @@ export default function StoryLegacy({ chapters }) {
 
   if (!items.length) return null
 
-  const imageSrc = urlFor(activeChapter.image) || `/assets/img/event-0${(activeIndex % 8) + 1}.jpg`
+  const imageSrc = urlFor(activeChapter?.image)
 
   return (
     <section className="section" id="story">

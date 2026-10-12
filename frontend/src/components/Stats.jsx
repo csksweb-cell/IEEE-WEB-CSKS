@@ -47,20 +47,13 @@ function CounterItem({ value, suffix, label }) {
 }
 
 export default function Stats({ stats }) {
-  const items = stats?.length
-    ? stats
-    : [
-        { _id: '1', value: 40, suffix: '+', label: 'Years of legacy' },
-        { _id: '2', value: 60, suffix: '+', label: 'Student branches' },
-        { _id: '3', value: 500, suffix: '+', label: 'Events hosted' },
-        { _id: '4', value: 12, suffix: 'K+', label: 'Members reached' },
-      ]
+  if (!stats || stats.length === 0) return null
 
   return (
     <section className="section" style={{ paddingTop: 0 }}>
       <div className="wrap">
         <div className="stats-strip">
-          {items.map((stat) => (
+          {stats.map((stat) => (
             <CounterItem
               key={stat._id || stat.label}
               value={stat.value}

@@ -15,13 +15,11 @@ const getInitials = (name = '') => {
   return ((words[0]?.[0] || '') + (words.length > 1 ? words[words.length - 1][0] : '')).toUpperCase()
 }
 
-const slugifyName = (name = '') =>
-  stripHonorific(name)
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '')
+
 
 export default function Team({ members }) {
+  if (!members || members.length === 0) return null
+
   // Collapsible state for the 3 groups; open Execom by default
   const [openGroups, setOpenGroups] = useState({
     execom: true,
@@ -81,11 +79,7 @@ export default function Team({ members }) {
               {isOpen && (
                 <div className="team-grid">
                   {list.map((person) => {
-                    // Try photo from Sanity, else local photo fallback
-                    const photoUrl =
-                      urlFor(person.photo) ||
-                      person.photo ||
-                      `/assets/img/team/${slugifyName(person.name)}.png`
+                    const photoUrl = urlFor(person.photo)
 
                     return (
                       <article key={person._id || person.name} className="person-card">

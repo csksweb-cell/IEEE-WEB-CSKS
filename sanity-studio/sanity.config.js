@@ -7,8 +7,8 @@ export default defineConfig({
   name: 'default',
   title: 'IEEE CS Kerala Chapter Studio',
 
-  projectId: process.env.SANITY_STUDIO_PROJECT_ID || 'ieeecskc',
-  dataset: process.env.SANITY_STUDIO_DATASET || 'production',
+  projectId: 'kvtr8mms',
+  dataset: 'production',
 
   plugins: [
     structureTool({
