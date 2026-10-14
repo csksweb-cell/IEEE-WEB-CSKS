@@ -1,11 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { fetchSanityContent } from '../sanity/client'
 
-/**
- * Strict Sanity-only data hook.
- * Initial state is null for every field — components must handle null explicitly.
- * No fallback objects or arrays are injected at any point.
- */
 export function useSanityData() {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -19,7 +14,7 @@ export function useSanityData() {
     setLoading(true)
     try {
       const res = await fetchSanityContent()
-      setData(res.data)        // null on error, object with nulls on empty Sanity
+      setData(res.data)        
       setIsLive(res.isLive)
       setProjectId(res.projectId)
       setDataset(res.dataset)

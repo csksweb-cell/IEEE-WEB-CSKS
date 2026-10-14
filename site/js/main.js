@@ -1,11 +1,7 @@
-/* =====================================================================
-   IEEE CS Kerala Chapter — redesign concept
-   Interaction & scroll choreography
-   ===================================================================== */
+
 (function () {
   "use strict";
 
-  // always open/refresh at the very top — no browser scroll restoration
   if ("scrollRestoration" in history) history.scrollRestoration = "manual";
   window.scrollTo(0, 0);
   window.addEventListener("beforeunload", () => window.scrollTo(0, 0));
@@ -20,9 +16,6 @@
 
   document.getElementById("yr").textContent = new Date().getFullYear();
 
-  /* -----------------------------------------------------------------
-     THEME TOGGLE (sun / moon) — light default, remembers choice
-     ----------------------------------------------------------------- */
   const root = document.documentElement;
   const saved = localStorage.getItem("csk-theme");
   if (saved) root.setAttribute("data-theme", saved);
@@ -33,19 +26,13 @@
     if (window.ScrollTrigger) ScrollTrigger.refresh();
   });
 
-  /* -----------------------------------------------------------------
-     HERO TRACK — build the right→left carousel (duplicated for loop)
-     ----------------------------------------------------------------- */
   const tags = ["Workshop","Community","Hands-on","Lab","Meetup","Retreat","Panel","On stage"];
   const track = document.getElementById("heroTrack");
   const buildSlides = () => IMAGES.map((src,i)=>(
     `<figure class="hero-slide"><img src="${src}" alt="" loading="eager"><span class="tag">${tags[i%tags.length]}</span></figure>`
   )).join("");
-  track.innerHTML = buildSlides() + buildSlides(); // two sets => seamless
+  track.innerHTML = buildSlides() + buildSlides(); 
 
-  /* -----------------------------------------------------------------
-     OFFICE BEARERS — data from cs.ieeekerala.org, rendered new-style
-     ----------------------------------------------------------------- */
   const TEAM = [
     { title: "Professional Execom", people: [
       ["Prof. Sarju S", "Chairperson", "SJCET"],
@@ -119,7 +106,6 @@
         </div>
       </div>`).join("");
 
-    // collapsible groups, collapsed by default
     teamWrap.querySelectorAll(".team-grouphead").forEach(btn => {
       btn.addEventListener("click", () => {
         const group = btn.closest(".team-group");
@@ -130,9 +116,6 @@
     });
   }
 
-  /* -----------------------------------------------------------------
-     PRELOADER SEQUENCE
-     ----------------------------------------------------------------- */
   function runPreloader(done) {
     const pl   = document.getElementById("preloader");
     const bar  = pl.querySelector(".pl-bar i");
@@ -163,9 +146,6 @@
       .add(done, "-=0.5");
   }
 
-  /* -----------------------------------------------------------------
-     HERO ENTRANCE + parallax marquee
-     ----------------------------------------------------------------- */
   function heroIntro() {
     const spans = document.querySelectorAll(".hero h1 .line > span");
     gsap.set(spans, { yPercent: 115 });
@@ -179,13 +159,9 @@
     });
   }
 
-  /* -----------------------------------------------------------------
-     MAIN — Lenis smooth scroll + all ScrollTriggers
-     ----------------------------------------------------------------- */
   function init() {
     gsap.registerPlugin(ScrollTrigger);
 
-    /* Lenis smooth scroll wired to GSAP ticker */
     let lenis;
     if (window.Lenis && !reduceMotion && !params.has("y") && !params.has("test")) {
       lenis = new Lenis({ duration: 1.15, smoothWheel: true,
@@ -193,8 +169,8 @@
       lenis.on("scroll", ScrollTrigger.update);
       gsap.ticker.add((t)=>lenis.raf(t*1000));
       gsap.ticker.lagSmoothing(0);
-      lenis.scrollTo(0, { immediate: true });   // start at the top on load/refresh
-      // anchor links via lenis
+      lenis.scrollTo(0, { immediate: true });   
+      
       document.querySelectorAll('a[href^="#"]').forEach(a=>{
         a.addEventListener("click", e=>{
           const id = a.getAttribute("href");
@@ -205,7 +181,6 @@
       });
     }
 
-    /* ---- MOBILE MENU ---- */
     const burger = document.getElementById("burger");
     const mobileMenu = document.getElementById("mobileMenu");
     if (burger && mobileMenu) {
@@ -216,42 +191,35 @@
       };
       burger.addEventListener("click", () =>
         setMenu(!document.body.classList.contains("menu-open")));
-      // close when a link is tapped (also lets the anchor scroll happen)
+      
       mobileMenu.querySelectorAll("a").forEach(a =>
         a.addEventListener("click", () => setMenu(false)));
-      // close on resize back to desktop
+      
       window.addEventListener("resize", () => {
         if (window.innerWidth > 820) setMenu(false);
       });
     }
 
-    /* ---- HERO right→left drift ---- */
     if (!reduceMotion) {
-      // single seamless marquee (two identical slide sets => -50% loops with no seam).
-      // ONE tween owns the track's x so nothing fights it (that was the stutter).
+      
       gsap.to(track, { xPercent: -50, duration: 46, ease: "none", repeat: -1 });
 
-      // scroll parallax lives on the WRAP, not the track, so transforms never collide
       gsap.to(".hero-track-wrap", {
         xPercent: -4, ease: "none",
         scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 1 }
       });
-      // fade hero copy on scroll out
+      
       gsap.to(".hero-overlay", {
         yPercent: -18, opacity: 0, ease: "none",
         scrollTrigger: { trigger: ".hero", start: "30% top", end: "bottom top", scrub: true }
       });
     }
 
-    /* =============================================================
-       STORY — pin the visual, drive through steps, swap image/glow
-       ============================================================= */
     const steps   = gsap.utils.toArray(".story-step");
     const layers  = gsap.utils.toArray("#storyFrame .layer");
     const idxEl   = document.getElementById("storyIndex");
     const N = steps.length;
 
-    // the locked image swaps with a slide-up so the left column never feels idle
     function swapImage(i) {
       i = Math.max(0, Math.min(N - 1, i));
       layers.forEach((l, k) => {
@@ -268,37 +236,33 @@
     }
 
     if (!reduceMotion && window.innerWidth > 820) {
-      // Each card scrolls UP through the window: it rises from below, decelerates
-      // and LOCKS at centre (smootherstep flattens velocity there), then keeps
-      // scrolling up and away — receding (scale↓) as it leaves the top. Cards
-      // stay opaque while on screen and fully leave, so none show through another.
+      
       steps.forEach((s, i) => gsap.set(s, { zIndex: i }));
 
-      const smoother = t => t * t * t * (t * (t * 6 - 15) + 10); // 0..1, flat at both ends
+      const smoother = t => t * t * t * (t * (t * 6 - 15) + 10); 
       const RISE = 0.92, EXIT = 1.0;
 
       const place = (card, d) => {
-        // d = card index − active pointer.  d>0 below (waiting), d≈0 locked, d<0 leaving up
+        
         let y, scale = 1, opacity = 1, blur = 0;
-        if (d >= RISE) {                       // still below the window
+        if (d >= RISE) {                       
           y = 120; opacity = 0;
-        } else if (d > 0) {                    // rising up into the lock
-          const u = d / RISE;                  // 1 → 0 as it nears centre
+        } else if (d > 0) {                    
+          const u = d / RISE;                  
           y = 120 * smoother(u);
-          opacity = Math.min(1, (1 - u) * 2.6);// opaque well before centre
-        } else if (d > -EXIT) {                // locked, then scrolls up & recedes
-          const v = -d / EXIT;                 // 0 → 1 leaving centre upward
+          opacity = Math.min(1, (1 - u) * 2.6);
+        } else if (d > -EXIT) {                
+          const v = -d / EXIT;                 
           y = -122 * smoother(v);
-          scale = 1 - 0.16 * v;                // recede away from the viewer
+          scale = 1 - 0.16 * v;                
           opacity = v < 0.6 ? 1 : Math.max(0, 1 - (v - 0.6) / 0.4);
           blur = v > 0.5 ? (v - 0.5) * 3.2 : 0;
-        } else {                               // fully gone above
+        } else {                               
           y = -122; opacity = 0; scale = 0.84;
         }
         gsap.set(card, { yPercent: y, scale, opacity, filter: "blur(" + blur + "px)" });
       };
 
-      // initial paint (card 0 centred, rest waiting below)
       steps.forEach((c, i) => place(c, i));
 
       let last = -1;
@@ -310,15 +274,13 @@
         scrub: 0.5,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
-          const ptr = self.progress * (N - 1);        // 0 → N-1
+          const ptr = self.progress * (N - 1);        
           steps.forEach((c, i) => place(c, i - ptr));
           const idx = Math.max(0, Math.min(N - 1, Math.round(ptr)));
           if (idx !== last) { swapImage(idx); last = idx; }
         }
       });
 
-      // the left image is NOT idle: it drifts up (parallax) and lifts/scales
-      // subtly as you move through the story, echoing the cards' upward travel
       gsap.fromTo("#storyFrame", { yPercent: 5, scale: 1.03 },
         { yPercent: -9, scale: 1, ease: "none",
           scrollTrigger: {
@@ -326,7 +288,7 @@
             end: () => "+=" + (window.innerHeight * (N + 1)), scrub: true
           } });
     } else {
-      // mobile / reduced-motion: every chapter becomes its own image + text card
+      
       steps.forEach((s, i) => {
         gsap.set(s, { position: "relative", opacity: 1, yPercent: 0,
           scale: 1, filter: "none", marginBottom: i < N - 1 ? "1.3rem" : 0 });
@@ -347,15 +309,11 @@
       if (lbl) lbl.textContent = "Our story · six chapters";
     }
 
-    /* =============================================================
-       CONVERGENCE — scattered bubbles → converge → grid carousel
-       ============================================================= */
     const stage   = document.getElementById("bubbleStage");
     const bubbles = gsap.utils.toArray(".bubble");
     const gridcar = document.getElementById("gridcar");
     const copy    = document.getElementById("convergeCopy");
 
-    // scatter each bubble to a random-ish ring position
     const scatter = bubbles.map((b, i) => {
       const ang = (i / bubbles.length) * Math.PI * 2 + 0.4;
       const rx = (window.innerWidth  * 0.30);
@@ -369,16 +327,12 @@
     });
 
     if (!reduceMotion && window.innerWidth > 820) {
-      // Duplicate each row's cards FIRST (seamless -50% loop) so the reveal
-      // below targets the final DOM. Doing this after building the timeline
-      // orphaned the animated nodes (and baked in opacity:0) — that race was
-      // why the gallery sometimes never appeared.
+      
       ["#gcRowA", "#gcRowB"].forEach(sel => {
         const row = document.querySelector(sel);
         if (row && !row.dataset.dup) { row.innerHTML += row.innerHTML; row.dataset.dup = "1"; }
       });
 
-      // start scattered
       bubbles.forEach((b, i) => {
         gsap.set(b, { x: scatter[i].x, y: scatter[i].y, rotation: scatter[i].r,
           scale: scatter[i].s, opacity: 0 });
@@ -397,34 +351,33 @@
         }
       });
 
-      // 1) bubbles fade in scattered
       cv.to(bubbles, { opacity: 1, duration: 0.4, stagger: 0.03 }, 0)
-        // 2) converge into a blob
+        
         .to(bubbles, {
           x: 0, y: 0, rotation: 0, scale: 1,
           duration: 1.2, ease: "power3.inOut", stagger: { each: 0.02, from: "edges" }
         }, 0.5)
         .to(stage, { scale: 0.62, duration: 0.6, ease: "power2.inOut" }, 1.2)
         .to(copy, { opacity: 0, scale: 0.9, duration: 0.4 }, 1.3)
-        // 3) explode outward
+        
         .to(bubbles, {
           scale: 2.4, opacity: 0, filter: "blur(14px)",
           duration: 0.6, ease: "power2.in", stagger: { each: 0.015, from: "center" }
         }, 1.7)
-        // 4) reveal the gallery (deterministic to/set, not from) and HOLD it
+        
         .set(gridcar, { pointerEvents: "auto" }, 1.85)
         .to(gridcar, { opacity: 1, duration: 0.45 }, 1.85)
         .to(".gc-card", {
           opacity: 1, scale: 1, filter: "blur(0px)",
           duration: 0.7, ease: "back.out(1.5)", stagger: 0.03
         }, 1.9)
-        .to({}, { duration: 0.9 });   // trailing hold so the carousel is clearly seen
+        .to({}, { duration: 0.9 });   
 
       gsap.to("#gcRowA", { xPercent: -50, duration: 44, ease: "none", repeat: -1 });
       gsap.fromTo("#gcRowB", { xPercent: -50 }, { xPercent: 0, duration: 52, ease: "none", repeat: -1 });
 
     } else {
-      // fallback: just show the grid
+      
       stage.style.display = "none";
       gridcar.style.opacity = 1;
       gridcar.style.position = "relative";
@@ -432,9 +385,6 @@
       copy.style.position = "relative";
     }
 
-    /* =============================================================
-       REVEAL-ON-SCROLL for standard sections
-       ============================================================= */
     gsap.utils.toArray(".reveal").forEach(el => {
       ScrollTrigger.create({
         trigger: el, start: "top 86%",
@@ -442,9 +392,6 @@
       });
     });
 
-    /* =============================================================
-       STAT COUNTERS
-       ============================================================= */
     gsap.utils.toArray(".stat .num").forEach(el => {
       const target = +el.getAttribute("data-count");
       const suffix = el.getAttribute("data-suffix") || "";
@@ -460,11 +407,10 @@
           onComplete: () => { if (unit) el.appendChild(unit); }
         })
       });
-      // ensure the unit span sits after the number text node
+      
       el.insertBefore(document.createTextNode("0"), el.firstChild);
     });
 
-    /* nav pill subtle shrink on scroll */
     ScrollTrigger.create({
       start: 80,
       onToggle: (self) => document.querySelector(".nav-pill")
@@ -474,7 +420,6 @@
     ScrollTrigger.refresh();
     window.addEventListener("load", () => ScrollTrigger.refresh());
 
-    /* ---- test hook: ?y=<px> jumps scroll for screenshotting ---- */
     if (params.has("y")) {
       const y = +params.get("y");
       const jump = () => {
@@ -488,9 +433,6 @@
     }
   }
 
-  /* -----------------------------------------------------------------
-     BOOT
-     ----------------------------------------------------------------- */
   window.addEventListener("DOMContentLoaded", () => {
     runPreloader(() => heroIntro());
     init();

@@ -1,7 +1,3 @@
-/**
- * GROQ Queries for IEEE Computer Society Kerala Chapter
- * The frontend calls these queries directly against Sanity's Content Lake.
- */
 
 export const siteSettingsQuery = `*[_type == "siteSettings"][0]{
   title,

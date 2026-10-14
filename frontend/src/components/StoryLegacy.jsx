@@ -32,7 +32,7 @@ export default function StoryLegacy({ chapters }) {
         </div>
 
         <div className="story-grid">
-          {/* Visual Frame */}
+          
           <div className="story-visual">
             <span className="story-badge-step">
               0{activeChapter.step ?? activeIndex + 1} / 0{items.length}
@@ -50,9 +50,8 @@ export default function StoryLegacy({ chapters }) {
             </AnimatePresence>
           </div>
 
-          {/* Story Details & Controls */}
           <div className="story-controls">
-            {/* Step Selector Dots */}
+            
             <div className="story-nav-dots">
               {items.map((_, idx) => (
                 <button
@@ -64,7 +63,6 @@ export default function StoryLegacy({ chapters }) {
               ))}
             </div>
 
-            {/* Active Chapter Content */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
@@ -85,7 +83,6 @@ export default function StoryLegacy({ chapters }) {
               </motion.div>
             </AnimatePresence>
 
-            {/* Next / Prev Controls */}
             <div style={{ display: 'flex', gap: '0.75rem' }}>
               <button
                 className="btn btn-ghost"

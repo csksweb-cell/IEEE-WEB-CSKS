@@ -5,7 +5,6 @@ export default function MarqueeStrip({ keywords }) {
     ? keywords
     : ['Workshops', 'Hackathons', 'Distinguished Lectures', 'Student Branches', 'Research', 'Mentorship']
 
-  // Duplicate for smooth continuous marquee loop
   const loopItems = [...items, ...items, ...items, ...items]
 
   return (

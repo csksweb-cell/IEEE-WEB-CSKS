@@ -15,12 +15,9 @@ const getInitials = (name = '') => {
   return ((words[0]?.[0] || '') + (words.length > 1 ? words[words.length - 1][0] : '')).toUpperCase()
 }
 
-
-
 export default function Team({ members }) {
   if (!members || members.length === 0) return null
 
-  // Collapsible state for the 3 groups; open Execom by default
   const [openGroups, setOpenGroups] = useState({
     execom: true,
     student: false,
@@ -90,7 +87,7 @@ export default function Team({ members }) {
                             alt={person.name}
                             loading="lazy"
                             onError={(e) => {
-                              // If image fails to load, keep initials visible
+                              
                               e.currentTarget.style.display = 'none'
                             }}
                           />

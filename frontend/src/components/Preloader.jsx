@@ -6,7 +6,7 @@ export default function Preloader({ onComplete }) {
   const [visible, setVisible] = useState(true)
 
   useEffect(() => {
-    const duration = 1200 // 1.2s preloader
+    const duration = 1200 
     const stepTime = 15
     const steps = duration / stepTime
     let currentStep = 0

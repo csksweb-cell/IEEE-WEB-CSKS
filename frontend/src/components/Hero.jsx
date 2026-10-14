@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { urlFor } from '../sanity/client'
 
 export default function Hero({ hero, galleryItems }) {
-  // Both hero text and gallery images must come from Sanity
+  
   if (!hero && (!galleryItems || galleryItems.length === 0)) return null
 
   const slides = galleryItems && galleryItems.length > 0
@@ -12,7 +12,7 @@ export default function Hero({ hero, galleryItems }) {
 
   return (
     <section className="hero" id="top">
-      {/* Background Animated Event Photos from Sanity */}
+      
       {slides.length > 0 && (
         <div className="hero-track-wrap">
           <div className="hero-track">
@@ -30,7 +30,6 @@ export default function Hero({ hero, galleryItems }) {
         </div>
       )}
 
-      {/* Frosted Acrylic Scrim */}
       <div className="hero-scrim" aria-hidden="true"></div>
 
       <div className="wrap">

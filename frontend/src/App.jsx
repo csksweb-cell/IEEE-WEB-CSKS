@@ -19,7 +19,6 @@ export default function App() {
   const { data } = useSanityData()
   const [preloaderDone, setPreloaderDone] = useState(false)
 
-  // data is null until Sanity responds — all props use optional chaining
   const settings      = data?.settings      ?? null
   const hero          = data?.hero          ?? null
   const storyChapters = data?.storyChapters ?? null
@@ -31,10 +30,9 @@ export default function App() {
 
   return (
     <>
-      {/* Smooth Preloader */}
+      
       {!preloaderDone && <Preloader onComplete={() => setPreloaderDone(true)} />}
 
-      {/* Main Website Content */}
       <div className="site-wrapper">
         <Navbar
           settings={settings}

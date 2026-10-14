@@ -1,18 +1,12 @@
-/* =====================================================================
-   IEEE Computer Society — Kerala Chapter
-   Modern React Design System & Aesthetics
-   Typography: Anybody (Grotesk), Italiana (Display Serif), Urbanist (Body)
-   ===================================================================== */
 
 :root {
-  /* Brand Amber Spectrum */
+  
   --amber: #f5a623;
   --amber-lite: #ffc15a;
   --amber-glow: #ffb84d;
   --amber-deep: #d07e0c;
   --amber-darkest: #8a5406;
 
-  /* Light Theme (Warm Paper & Ink) */
   --paper: #f3ecde;
   --paper-2: #efe6d4;
   --card: #fbf6ec;
@@ -53,7 +47,6 @@ html[data-theme='dark'] {
   --halo: rgba(245, 166, 35, 0.35);
 }
 
-/* ---------- Global Reset & Body ---------- */
 *,
 *::before,
 *::after {
@@ -79,7 +72,6 @@ body {
   position: relative;
 }
 
-/* Subtle Warm Atmospheric Glow */
 body::before {
   content: '';
   position: fixed;
@@ -120,7 +112,6 @@ button {
   outline-offset: 3px;
 }
 
-/* ---------- Layout Utilities ---------- */
 .wrap {
   width: 100%;
   max-width: var(--maxw);
@@ -199,7 +190,6 @@ html[data-theme='dark'] .script {
   box-shadow: var(--glass-shadow);
 }
 
-/* ---------- Buttons ---------- */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -247,7 +237,6 @@ html[data-theme='dark'] .script {
   background: #1a1611;
 }
 
-/* ---------- Preloader ---------- */
 .preloader {
   position: fixed;
   inset: 0;
@@ -317,7 +306,6 @@ html[data-theme='dark'] .script {
   transition: width 0.15s ease-out;
 }
 
-/* ---------- Header / Nav ---------- */
 .nav-header {
   position: fixed;
   top: 1.25rem;
@@ -452,7 +440,6 @@ html[data-theme='dark'] .status-pill {
   background: rgba(245, 166, 35, 0.2);
 }
 
-/* ---------- Hero Section ---------- */
 .hero {
   position: relative;
   min-height: 100vh;
@@ -606,7 +593,6 @@ html[data-theme='dark'] .hero h1 .accent {
   flex-wrap: wrap;
 }
 
-/* ---------- Marquee Strip ---------- */
 .strip {
   width: 100%;
   overflow: hidden;
@@ -632,7 +618,6 @@ html[data-theme='dark'] .hero h1 .accent {
   100% { transform: translateX(-50%); }
 }
 
-/* ---------- Story / Legacy Section ---------- */
 .story-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -718,7 +703,6 @@ html[data-theme='dark'] .hero h1 .accent {
   line-height: 1.6;
 }
 
-/* ---------- Pillars (What We Do) ---------- */
 .pillars-grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -801,7 +785,6 @@ html[data-theme='dark'] .hero h1 .accent {
   opacity: 0.9;
 }
 
-/* ---------- Stats Section ---------- */
 .stats-strip {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -833,7 +816,6 @@ html[data-theme='dark'] .stat-num {
   color: var(--ink-soft);
 }
 
-/* ---------- Events Section ---------- */
 .events-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -923,7 +905,6 @@ html[data-theme='dark'] .ev-date {
   color: var(--ink-faint);
 }
 
-/* ---------- Team / Office Bearers ---------- */
 .team-group {
   margin-top: 2rem;
   background: var(--card);
@@ -1043,7 +1024,6 @@ html[data-theme='dark'] .team-count {
   color: var(--ink-faint);
 }
 
-/* ---------- Community CTA ---------- */
 .community-banner {
   background: radial-gradient(100% 150% at 50% 0%, rgba(245, 166, 35, 0.25), transparent 70%),
     var(--card);
@@ -1073,7 +1053,6 @@ html[data-theme='dark'] .team-count {
   margin-bottom: 2.5rem;
 }
 
-/* ---------- Gallery / Convergence ---------- */
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -1112,7 +1091,6 @@ html[data-theme='dark'] .team-count {
   font-weight: 700;
 }
 
-/* ---------- Footer ---------- */
 .footer {
   border-top: 1px solid var(--line);
   padding-block: 5rem 3rem;
@@ -1187,7 +1165,6 @@ html[data-theme='dark'] .team-count {
   transform: translateY(-2px);
 }
 
-/* ---------- Sanity Status Modal ---------- */
 .sanity-modal-backdrop {
   position: fixed;
   inset: 0;
@@ -1256,7 +1233,6 @@ html[data-theme='dark'] .team-count {
   outline: 2px solid var(--amber);
 }
 
-/* ---------- Responsive Breakpoints ---------- */
 @media (max-width: 992px) {
   .story-grid {
     grid-template-columns: 1fr;

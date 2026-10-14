@@ -24,7 +24,6 @@ export default function GallerySection({ items }) {
             </h2>
           </div>
 
-          {/* Filter Pills */}
           {categories.length > 2 && (
             <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
               {categories.map((cat) => (
@@ -51,7 +50,6 @@ export default function GallerySection({ items }) {
           )}
         </div>
 
-        {/* Grid */}
         <motion.div layout className="gallery-grid">
           <AnimatePresence>
             {filteredItems.map((item) => {
