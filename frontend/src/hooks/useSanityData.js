@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { fetchSanityContent } from '../sanity/client'
+import { fetchSanityContent, getClient } from '../sanity/client'
 
 export function useSanityData() {
   const [data, setData] = useState(null)
@@ -30,6 +30,31 @@ export function useSanityData() {
 
   useEffect(() => {
     reloadData()
+
+    let subscription = null
+    try {
+      const client = getClient()
+      if (client && typeof client.listen === 'function') {
+        subscription = client
+          .listen('*[!(_id in path("_.**"))]', {}, { visibility: 'query' })
+          .subscribe({
+            next: () => {
+              reloadData()
+            },
+            error: (err) => {
+              console.warn('Sanity live listener warning:', err)
+            }
+          })
+      }
+    } catch (err) {
+      console.warn('Could not initialize Sanity live listener:', err)
+    }
+
+    return () => {
+      if (subscription && typeof subscription.unsubscribe === 'function') {
+        subscription.unsubscribe()
+      }
+    }
   }, [reloadData])
 
   const updateConfig = (newProjectId, newDataset) => {
