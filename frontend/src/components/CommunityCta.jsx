@@ -1,4 +1,5 @@
 import React from 'react'
+import { motion } from 'framer-motion'
 import confetti from 'canvas-confetti'
 
 export default function CommunityCta({ settings }) {
@@ -16,7 +17,13 @@ export default function CommunityCta({ settings }) {
   return (
     <section className="section" id="community" style={{ paddingTop: 0 }}>
       <div className="wrap">
-        <div className="community-banner">
+        <motion.div
+          className="community-banner"
+          initial={{ opacity: 0, y: 32, scale: 0.98 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        >
           <span className="eyebrow" style={{ color: 'var(--amber-deep)' }}>
             Your seat is waiting
           </span>
@@ -28,21 +35,28 @@ export default function CommunityCta({ settings }) {
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             {settings.membershipUrl && (
-              <a
+              <motion.a
                 href={settings.membershipUrl}
                 target="_blank"
                 rel="noreferrer"
                 className="btn btn-primary"
                 onClick={handleConfetti}
+                whileHover={{ scale: 1.04, y: -2 }}
+                whileTap={{ scale: 0.96 }}
               >
-                <span className="dot"></span> Become a member
-              </a>
+                Become a member
+              </motion.a>
             )}
-            <a href="#events" className="btn btn-ghost">
+            <motion.a
+              href="#events"
+              className="btn btn-ghost"
+              whileHover={{ scale: 1.04, y: -2 }}
+              whileTap={{ scale: 0.96 }}
+            >
               Attend an event
-            </a>
+            </motion.a>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   )

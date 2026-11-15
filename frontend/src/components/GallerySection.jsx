@@ -16,7 +16,13 @@ export default function GallerySection({ items }) {
   return (
     <section className="section" id="gallery" style={{ paddingTop: '2rem' }}>
       <div className="wrap">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1.5rem', marginBottom: '2.5rem' }}>
+        <motion.div
+          style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '1.5rem', marginBottom: '2.5rem' }}
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        >
           <div>
             <span className="eyebrow">Moments in frame</span>
             <h2 className="h-sec" style={{ marginTop: '0.8rem' }}>
@@ -27,9 +33,11 @@ export default function GallerySection({ items }) {
           {categories.length > 2 && (
             <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
               {categories.map((cat) => (
-                <button
+                <motion.button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
                   style={{
                     padding: '0.45rem 1rem',
                     borderRadius: '999px',
@@ -39,16 +47,16 @@ export default function GallerySection({ items }) {
                     border: '1px solid var(--line)',
                     background: activeCategory === cat ? 'var(--amber)' : 'var(--card)',
                     color: activeCategory === cat ? '#1a1611' : 'var(--ink-soft)',
-                    transition: 'all 0.2s',
+                    transition: 'background 0.25s, color 0.25s, border-color 0.25s',
                     cursor: 'pointer',
                   }}
                 >
                   {cat}
-                </button>
+                </motion.button>
               ))}
             </div>
           )}
-        </div>
+        </motion.div>
 
         <motion.div layout className="gallery-grid">
           <AnimatePresence>
@@ -60,10 +68,11 @@ export default function GallerySection({ items }) {
                 <motion.div
                   key={item._id || item.title}
                   layout
-                  initial={{ opacity: 0, scale: 0.95 }}
+                  initial={{ opacity: 0, scale: 0.92 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.25 }}
+                  exit={{ opacity: 0, scale: 0.92 }}
+                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  whileHover={{ y: -6 }}
                   className="gallery-card"
                 >
                   <img src={src} alt={item.title || ''} loading="lazy" />

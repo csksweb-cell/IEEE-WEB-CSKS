@@ -130,7 +130,7 @@ html[data-theme="dark"] .script{color:var(--amber-lite)}
   transition:transform .5s var(--ease), box-shadow .5s var(--ease), background .3s;
   will-change:transform;
 }
-.btn .dot{width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.9}
+.btn .dot{display:none}
 .btn-primary{
   background:var(--amber);color:#1A1611;
   box-shadow:0 12px 30px -10px var(--halo), inset 0 0 0 1px rgba(255,255,255,.25);
@@ -280,7 +280,7 @@ html[data-theme="dark"] .toggle .knob .i-moon{display:block}
 .hero-overlay{position:relative;z-index:3;pointer-events:none;padding-block:2vh}
 .hero-copy{width:min(var(--maxw), calc(100% - 2 * var(--gutter)));margin-inline:auto;pointer-events:auto}
 .hero-badge{display:inline-flex;align-items:center;gap:.7em;padding:.55em 1em;border-radius:100px;margin-bottom:1rem;font-size:.74rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
-.hero-badge .live{width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 0 var(--halo);animation:live 2s infinite}
+.hero-badge .live{display:none}
 @keyframes live{0%{box-shadow:0 0 0 0 var(--halo)}70%{box-shadow:0 0 0 9px transparent}100%{box-shadow:0 0 0 0 transparent}}
 .hero h1{font-family:var(--font-display);font-weight:900;letter-spacing:-.025em;line-height:.98;font-size:clamp(2.4rem,7.6vw,7.4rem);text-transform:uppercase;position:relative}
 .hero h1 .line{display:block;overflow:hidden;padding-block:.1em;margin-block:-.08em}
